@@ -3,7 +3,6 @@
 import tkinter as tk
 from tkinter import messagebox
 import matplotlib
-import sys
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
@@ -25,7 +24,7 @@ def pixels2cartesian(pixel):
 
 
 def cartesian2pixels(x):
-        return (x + 10) * 15
+    return (x + 10) * 15
 
 
 class AppWindow:
@@ -66,8 +65,8 @@ class AppWindow:
     def make_widgets(self):
         # Canvas de entrenamiento
         self.training_canvas.grid(row=0, column=0)
-        self.training_canvas.bind("<Button-1>", self.draw_circle)
-        self.training_canvas.bind("<Button-3>", self.draw_rectangle)
+        self.training_canvas.bind("<Button-1>", self.draw_circle_btn_callback)
+        self.training_canvas.bind("<Button-3>", self.draw_rectangle_btn_callback)
 
         self.right_frame.grid(row=0, column=1, sticky='n')
 
@@ -112,25 +111,31 @@ class AppWindow:
         train_btn = tk.Button(self.master, text="Entrenar", command=self.train)
         train_btn.grid(column=0, row=1, sticky="we")
 
-    def draw_circle(self, event):
-        self.circles.append(
-            self.training_canvas.create_oval(event.x - 5, event.y - 5, event.x + 5, event.y + 5, fill='blue'))
+    def draw_circle(self, x, y, color):
+        self.circles.append(self.training_canvas.create_oval(
+            x - 5, y - 5, x + 5, y + 5, fill=color))
 
-    def draw_rectangle(self, event):
-        self.rectangles.append(
-            self.training_canvas.create_rectangle(event.x - 5, event.y - 5, event.x + 5, event.y + 5, fill='red'))
+    def draw_rectangle(self, x, y, color):
+        self.rectangles.append(self.training_canvas.create_rectangle(
+            x - 5, y - 5, x + 5, y + 5, fill=color))
+
+    def draw_circle_btn_callback(self, event):
+        self.draw_circle(event.x, event.y, 'blue')
+
+    def draw_rectangle_btn_callback(self, event):
+        self.draw_rectangle(event.x, event.y, 'red')
 
     def draw_circle_proof(self, x, y):
-        self.circles.append(self.training_canvas.create_oval(x - 5, y - 5, x + 5, y + 5, fill='blue'))
+        self.draw_circle(x, y, 'blue')
 
     def draw_rectangle_proof(self, x, y):
-        self.rectangles.append(self.training_canvas.create_rectangle(x - 5, y - 5, x + 5, y + 5, fill='red'))
+        self.draw_rectangle(x, y, 'red')
 
     def draw_circle_paint(self, x, y):
-        self.circles.append(self.training_canvas.create_oval(x - 5, y - 5, x + 5, y + 5, fill='#4fa1c2'))
+        self.draw_circle(x, y, '#4fa1c2')
 
     def draw_rectangle_paint(self, x, y):
-        self.rectangles.append(self.training_canvas.create_rectangle(x - 5, y - 5, x + 5, y + 5, fill='#ce2029'))
+        self.draw_rectangle(x, y, '#ce2029')
 
     def draw_line(self, weights):
 

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def sigmoid(y):
-        return 1/(1 + math.exp(-y))
+    return 1/(1 + math.exp(-y))
 
 
 class Adaline:
